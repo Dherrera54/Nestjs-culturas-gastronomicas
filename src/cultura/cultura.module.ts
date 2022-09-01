@@ -5,6 +5,6 @@ import { CulturaEntity } from './cultura.entity';
 
 @Module({
   imports: [TypeOrmModule.forFeature([CulturaEntity])],
-  providers: [CulturaService]
+  providers: [CulturaService],
 })
 export class CulturaModule {}

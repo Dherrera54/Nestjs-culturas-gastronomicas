@@ -1,23 +1,29 @@
-import { RestauranteEntity } from 'src/restaurante/restaurante.entity';
-import { Column, Entity, PrimaryGeneratedColumn, OneToMany, ManyToMany, JoinTable } from 'typeorm';
+import {
+  Column,
+  Entity,
+  PrimaryGeneratedColumn,
+  OneToMany,
+  ManyToMany,
+  JoinTable,
+} from 'typeorm';
 import { RecetaEntity } from '../receta/receta.entity';
+import { RestauranteEntity } from '../restaurante/restaurante.entity';
 
 @Entity()
 export class CulturaEntity {
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
-@PrimaryGeneratedColumn('uuid')
-id: string;
+  @Column()
+  nombre: string;
 
-@Column()
-nombre: string;
- 
-@Column()
-descripcion: string;
+  @Column()
+  descripcion: string;
 
-@OneToMany(() => RecetaEntity, receta => receta.cultura)
-recetas: RecetaEntity[];
+  @OneToMany(() => RecetaEntity, (receta) => receta.cultura)
+  recetas: RecetaEntity[];
 
-@ManyToMany(() => RestauranteEntity, restaurante => restaurante.culturas)
- @JoinTable()
- restaurantes: RestauranteEntity[];
+  @ManyToMany(() => RestauranteEntity, (restaurante) => restaurante.culturas)
+  @JoinTable()
+  restaurantes: RestauranteEntity[];
 }

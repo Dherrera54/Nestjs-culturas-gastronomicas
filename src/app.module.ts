@@ -11,12 +11,15 @@ import { RestauranteModule } from './restaurante/restaurante.module';
 import { PaisModule } from './pais/pais.module';
 import { PaisEntity } from './pais/pais.entity';
 import { RestauranteEntity } from './restaurante/restaurante.entity';
+import { ProductoModule } from './producto/producto.module';
+import { ProductoEntity } from './producto/producto.entity';
 
 @Module({
   imports: [
     CulturaModule,
     RecetaModule,
     RestauranteModule,
+    ProductoModule,
     PaisModule,
     TypeOrmModule.forRoot({
       type: 'postgres',
@@ -24,8 +27,14 @@ import { RestauranteEntity } from './restaurante/restaurante.entity';
       port: 5432,
       username: 'postgres',
       password: 'postgres',
-      database: 'database',
-      entities: [CulturaEntity, RecetaEntity, PaisEntity, RestauranteEntity],
+      database: 'postgres',
+      entities: [
+        CulturaEntity,
+        RecetaEntity,
+        PaisEntity,
+        RestauranteEntity,
+        ProductoEntity,
+      ],
       dropSchema: true,
       synchronize: true,
       keepConnectionAlive: true,
