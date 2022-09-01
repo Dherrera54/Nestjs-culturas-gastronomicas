@@ -14,6 +14,6 @@ nombre: string;
 descripcion: string;
 
 @OneToMany(() => RecetaEntity, receta => receta.cultura)
-recetas: CulturaEntity[];
+recetas: RecetaEntity[];
 
 }
