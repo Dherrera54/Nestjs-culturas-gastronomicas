@@ -15,7 +15,7 @@ export class ProductService {
   ) {}
 
   async findAll(): Promise<ProductoEntity[]> {
-    return await this.productoEntityRepository.find({ relations: ['recetas'] });
+    return await this.productoEntityRepository.find({ relations: ['cultura'] });
   }
 
   async findOne(id: string): Promise<ProductoEntity> {
@@ -54,17 +54,17 @@ export class ProductService {
     return await this.productoEntityRepository.save(productoEntity);
   }
   async delete(id: string) {
-    const cultura: ProductoEntity = await this.productoEntityRepository.findOne(
+    const product: ProductoEntity = await this.productoEntityRepository.findOne(
       {
         where: { id },
       },
     );
-    if (!cultura)
+    if (!product)
       throw new BusinessLogicException(
         'El producto no se encontro para eliminarse',
         BusinessError.NOT_FOUND,
       );
 
-    await this.productoEntityRepository.remove(cultura);
+    await this.productoEntityRepository.remove(product);
   }
 }
