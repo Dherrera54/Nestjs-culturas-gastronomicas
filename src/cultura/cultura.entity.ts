@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
+import { RestauranteEntity } from 'src/restaurante/restaurante.entity';
+import { Column, Entity, PrimaryGeneratedColumn, OneToMany, ManyToMany, JoinTable } from 'typeorm';
 import { RecetaEntity } from '../receta/receta.entity';
 
 @Entity()
@@ -16,4 +17,7 @@ descripcion: string;
 @OneToMany(() => RecetaEntity, receta => receta.cultura)
 recetas: RecetaEntity[];
 
+@ManyToMany(() => RestauranteEntity, restaurante => restaurante.culturas)
+ @JoinTable()
+ restaurantes: RestauranteEntity[];
 }
