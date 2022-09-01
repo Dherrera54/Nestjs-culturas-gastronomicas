@@ -11,7 +11,7 @@ id: string;
 nombre: string;
  
 @Column()
-descricion: string;
+descripcion: string;
 
 @OneToMany(() => RecetaEntity, receta => receta.cultura)
 recetas: CulturaEntity[];
