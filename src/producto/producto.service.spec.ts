@@ -4,22 +4,22 @@ import { Repository } from 'typeorm';
 import { TypeOrmTestingConfig } from '../shared/testing-utils/typeorm-testing-config';
 
 import { faker } from '@faker-js/faker';
-import { ProductService } from './product.service';
+import { ProductoService } from './producto.service';
 import { ProductoEntity } from './producto.entity';
 import { RecetaEntity } from '../receta/receta.entity';
 
 describe('ProductoService', () => {
-  let service: ProductService;
+  let service: ProductoService;
   let repository: Repository<ProductoEntity>;
   let productList: ProductoEntity[];
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [...TypeOrmTestingConfig()],
-      providers: [ProductService],
+      providers: [ProductoService],
     }).compile();
 
-    service = module.get<ProductService>(ProductService);
+    service = module.get<ProductoService>(ProductoService);
     repository = module.get<Repository<ProductoEntity>>(
       getRepositoryToken(ProductoEntity),
     );
