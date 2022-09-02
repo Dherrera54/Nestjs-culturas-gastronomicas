@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
-import { CulturaEntity } from 'src/cultura/cultura.entity';
-import { PaisEntity } from 'src/pais/pais.entity';
+import { CulturaEntity } from '../cultura/cultura.entity';
+import { PaisEntity } from '../pais/pais.entity';
 import { Column, Entity, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()

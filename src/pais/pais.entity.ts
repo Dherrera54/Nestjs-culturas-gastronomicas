@@ -1,6 +1,7 @@
 /* eslint-disable prettier/prettier */
-import { RestauranteEntity } from 'src/restaurante/restaurante.entity';
-import { Column, Entity, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
+import { RestauranteEntity } from '../restaurante/restaurante.entity';
+import { Column, Entity, PrimaryGeneratedColumn, OneToMany, ManyToMany } from 'typeorm';
+import { CulturaEntity } from '../cultura/cultura.entity';
 
 @Entity()
 export class PaisEntity {
@@ -15,5 +16,8 @@ export class PaisEntity {
  
  @OneToMany(() => RestauranteEntity, restaurante => restaurante.pais)
 restaurantes: RestauranteEntity[];
+
+ @ManyToMany(() => CulturaEntity, cultura => cultura.paises)
+culturas: CulturaEntity[];
 
 }
