@@ -66,6 +66,7 @@ describe('CulturaService', () => {
       descripcion: faker.lorem.sentence(),
       recetas: [],
       restaurantes: [],
+      paises:[]
     };
 
     const newCultura: CulturaEntity = await service.create(cd);
