@@ -5,7 +5,7 @@ import { TypeOrmTestingConfig } from '../shared/testing-utils/typeorm-testing-co
 import { RestauranteEntity } from './restaurante.entity';
 import { RestauranteService } from './restaurante.service';
 import { faker } from '@faker-js/faker';
-import { PaisEntity } from 'src/pais/pais.entity';
+import { PaisEntity } from '../pais/pais.entity';
 
 
 describe('RestauranteService', () => {
@@ -13,6 +13,7 @@ describe('RestauranteService', () => {
  let repository: Repository<RestauranteEntity>;
  let paisRepository: Repository<PaisEntity>;
  let restaurantesList: RestauranteEntity[];
+ let paisesList: PaisEntity[];
 
  beforeEach(async () => {
    const module: TestingModule = await Test.createTestingModule({
@@ -22,12 +23,15 @@ describe('RestauranteService', () => {
 
    service = module.get<RestauranteService>(RestauranteService);
    repository = module.get<Repository<RestauranteEntity>>(getRepositoryToken(RestauranteEntity));
+   paisRepository = module.get<Repository<PaisEntity>>(getRepositoryToken(PaisEntity));
+   
    await seedDatabase();
  });
 
  const seedDatabase = async () => {
   repository.clear();
   restaurantesList = [];
+  paisesList = [];
   for (let i = 0; i < 5; i++) {
     const restaurante: RestauranteEntity = await repository.save({
       nombre: faker.company.name(),
@@ -37,6 +41,11 @@ describe('RestauranteService', () => {
     });
     restaurantesList.push(restaurante);
   }
+   const pais: PaisEntity = await paisRepository.save({
+      nombre: faker.company.name(),
+      descripcion: faker.lorem.sentence()
+    });
+    paisesList.push(pais);
   };
   
  it('should be defined', () => {
@@ -67,20 +76,16 @@ describe('RestauranteService', () => {
   });
 
   it('create should return a new restaurant', async () => {
-    const paisE: PaisEntity = ({
-      id: "",
-      nombre: "",
-      descripcion: "",
-      restaurantes: [],
-      culturas: []
-    });
+
+    const storedPais: PaisEntity = paisesList[0];
+
     const cd = {
       id: '',
       nombre: faker.company.name(),
       ciudad: faker.lorem.sentence(),
       estrellas: faker.datatype.number(),
       fecha: faker.date.birthdate(),
-      pais: paisE,
+      pais: storedPais,
       culturas: []
     };
 
