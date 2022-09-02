@@ -4,21 +4,22 @@ import { Repository } from 'typeorm';
 import { TypeOrmTestingConfig } from '../shared/testing-utils/typeorm-testing-config';
 
 import { faker } from '@faker-js/faker';
-import { ProductService } from './product.service';
+import { ProductoService } from './producto.service';
 import { ProductoEntity } from './producto.entity';
+import { RecetaEntity } from '../receta/receta.entity';
 
 describe('ProductoService', () => {
-  let service: ProductService;
+  let service: ProductoService;
   let repository: Repository<ProductoEntity>;
   let productList: ProductoEntity[];
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [...TypeOrmTestingConfig()],
-      providers: [ProductoEntity],
+      providers: [ProductoService],
     }).compile();
 
-    service = module.get<ProductService>(ProductService);
+    service = module.get<ProductoService>(ProductoService);
     repository = module.get<Repository<ProductoEntity>>(
       getRepositoryToken(ProductoEntity),
     );
@@ -40,11 +41,6 @@ describe('ProductoService', () => {
 
   it('should be defined', () => {
     expect(service).toBeDefined();
-  });
-  it('findAll should return all cultures', async () => {
-    const product: ProductoEntity[] = await service.findAll();
-    expect(product).not.toBeNull();
-    expect(product).toHaveLength(productList.length);
   });
 
   it('findOne should return a product by id', async () => {
@@ -84,20 +80,20 @@ describe('ProductoService', () => {
   });
 
   it('update should modify a product', async () => {
-    const cultura: ProductoEntity = ProductoEntity[0];
-    cultura.nombre = 'New name';
-    cultura.descripcion = 'New description';
+    const product: ProductoEntity = productList[0];
+    product.nombre = 'New name';
+    product.descripcion = 'New description';
     const updatedCulture: ProductoEntity = await service.update(
-      cultura.id,
-      cultura,
+      product.id,
+      product,
     );
     expect(updatedCulture).not.toBeNull();
     const storedCultura: ProductoEntity = await repository.findOne({
-      where: { id: cultura.id },
+      where: { id: product.id },
     });
     expect(storedCultura).not.toBeNull();
-    expect(storedCultura.nombre).toEqual(cultura.nombre);
-    expect(storedCultura.descripcion).toEqual(cultura.descripcion);
+    expect(storedCultura.nombre).toEqual(product.nombre);
+    expect(storedCultura.descripcion).toEqual(product.descripcion);
   });
 
   it('update should throw an exception for an invalid culture', async () => {
@@ -124,8 +120,7 @@ describe('ProductoService', () => {
 
   it('delete should throw an exception for an invalid product', async () => {
     const product: ProductoEntity = productList[0];
-    await service.delete(product.id);
-    await expect(() => service.delete('0')).rejects.toHaveProperty(
+    await expect(() => service.delete(product.id + 1)).rejects.toHaveProperty(
       'message',
       'El producto no se encontro para eliminarse',
     );
