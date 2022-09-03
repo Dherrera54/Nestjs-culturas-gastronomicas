@@ -12,10 +12,10 @@ export class PaisService {
         private readonly paisRepository: Repository<PaisEntity>
     ){}
     async findAll(): Promise<PaisEntity[]> {
-        return await this.paisRepository.find({ relations: ["restaurantes"] });
+        return await this.paisRepository.find({ relations: ["restaurantes", "culturas"] });
     }
     async findOne(id: string): Promise<PaisEntity> {
-        const pais: PaisEntity = await this.paisRepository.findOne({where: {id}, relations: ["restaurantes"] } );
+        const pais: PaisEntity = await this.paisRepository.findOne({where: {id}, relations: ["restaurantes", "culturas"] } );
         if (!pais)
           throw new BusinessLogicException("The pais with the given id was not found", BusinessError.NOT_FOUND);
    

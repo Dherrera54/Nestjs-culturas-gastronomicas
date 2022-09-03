@@ -62,7 +62,8 @@ describe('PaisService', () => {
       id: "",
       nombre: faker.address.country(),
       descripcion: faker.lorem.sentence(),
-      restaurantes: []
+      restaurantes: [],
+      culturas: []
     }
  
     const newPais: PaisEntity = await service.create(pais);
