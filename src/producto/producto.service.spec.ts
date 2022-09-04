@@ -6,12 +6,15 @@ import { TypeOrmTestingConfig } from '../shared/testing-utils/typeorm-testing-co
 import { faker } from '@faker-js/faker';
 import { ProductoService } from './producto.service';
 import { ProductoEntity } from './producto.entity';
+import { CulturaEntity } from '../cultura/cultura.entity';
 import { RecetaEntity } from '../receta/receta.entity';
 
 describe('ProductoService', () => {
   let service: ProductoService;
   let repository: Repository<ProductoEntity>;
   let productList: ProductoEntity[];
+  let cultura: CulturaEntity;
+  let culturaRepository: Repository<CulturaEntity>;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -20,6 +23,11 @@ describe('ProductoService', () => {
     }).compile();
 
     service = module.get<ProductoService>(ProductoService);
+
+    culturaRepository = module.get<Repository<CulturaEntity>>(
+      getRepositoryToken(CulturaEntity),
+    );
+
     repository = module.get<Repository<ProductoEntity>>(
       getRepositoryToken(ProductoEntity),
     );
@@ -27,6 +35,7 @@ describe('ProductoService', () => {
   });
   const seedDatabase = async () => {
     repository.clear();
+    culturaRepository.clear();
     productList = [];
     for (let i = 0; i < 5; i++) {
       const cultura: ProductoEntity = await repository.save({
@@ -37,6 +46,12 @@ describe('ProductoService', () => {
       });
       productList.push(cultura);
     }
+
+    cultura = await culturaRepository.save({
+      nombre: productList[0].nombre,
+      descripcion: productList[0].descripcion,
+      productos: productList,
+    });
   };
 
   it('should be defined', () => {
@@ -109,20 +124,24 @@ describe('ProductoService', () => {
     );
   });
 
-  it('delete should remove a product', async () => {
-    const product: ProductoEntity = productList[0];
-    await service.delete(product.id);
-    const deletedCulture: ProductoEntity = await repository.findOne({
-      where: { id: product.id },
-    });
-    expect(deletedCulture).toBeNull();
+  it('get product with relationship culture', async () => {
+    const product = await service.getProductWithRelationShipToCulture(
+      productList[0].nombre,
+    );
+    expect(product.length).toEqual(1);
   });
 
-  it('delete should throw an exception for an invalid product', async () => {
-    const product: ProductoEntity = productList[0];
-    await expect(() => service.delete(product.id + 1)).rejects.toHaveProperty(
-      'message',
-      'El producto no se encontro para eliminarse',
+  it('add product and culture', async () => {
+    const productEntityDTO: ProductoEntity = new ProductoEntity();
+    productEntityDTO.nombre = 'A';
+    productEntityDTO.categoria = 'A';
+    productEntityDTO.historia = 'A';
+    productEntityDTO.descripcion = 'A';
+
+    const result: CulturaEntity = await service.createProductAndCulture(
+      productEntityDTO,
     );
+
+    expect(result.productos.length).toBe(6);
   });
 });

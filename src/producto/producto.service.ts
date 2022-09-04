@@ -6,12 +6,16 @@ import {
   BusinessLogicException,
 } from '../shared/errors/business-errors';
 import { ProductoEntity } from './producto.entity';
+import { CulturaEntity } from '../cultura/cultura.entity';
+import { RecetaEntity } from '../receta/receta.entity';
 
 @Injectable()
 export class ProductoService {
   constructor(
     @InjectRepository(ProductoEntity)
     private readonly productoEntityRepository: Repository<ProductoEntity>,
+    @InjectRepository(CulturaEntity)
+    private readonly cultureEntityRepository: Repository<CulturaEntity>,
   ) {}
 
   async findAll(): Promise<ProductoEntity[]> {
@@ -19,18 +23,18 @@ export class ProductoService {
   }
 
   async findOne(id: string): Promise<ProductoEntity> {
-    const cultura: ProductoEntity = await this.productoEntityRepository.findOne(
+    const product: ProductoEntity = await this.productoEntityRepository.findOne(
       {
         where: { id },
       },
     );
-    if (!cultura)
+    if (!product)
       throw new BusinessLogicException(
         'La cultura gastronomica con id dado no se encontró',
         BusinessError.NOT_FOUND,
       );
 
-    return cultura;
+    return product;
   }
 
   async create(productoEntity: ProductoEntity): Promise<ProductoEntity> {
@@ -53,7 +57,95 @@ export class ProductoService {
 
     return await this.productoEntityRepository.save(productoEntity);
   }
-  async delete(id: string) {
+
+  async getProductWithRelationShipToCulture(name: string) {
+    const cultura = await this.cultureEntityRepository.find();
+    return cultura.filter((word) =>
+      word.nombre.toLowerCase().includes(name.toLowerCase()),
+    );
+  }
+
+  async createProductAndCulture(productoEntity: ProductoEntity) {
+    const product: ProductoEntity = await this.productoEntityRepository.findOne(
+      {
+        where: { id: productoEntity.id },
+      },
+    );
+    if (!product)
+      throw new BusinessLogicException(
+        'El producto con id dado no se encontró',
+        BusinessError.NOT_FOUND,
+      );
+
+    let cultura: CulturaEntity = await this.cultureEntityRepository.findOne({
+      where: { id: productoEntity.id },
+      relations: ['productos'],
+    });
+    if (!cultura) {
+      const cul = new CulturaEntity();
+      cul.id = productoEntity.id;
+      cul.nombre = productoEntity.nombre;
+      cul.descripcion = productoEntity.descripcion;
+      cul.recetas = [];
+      cul.restaurantes = [];
+      cul.paises = [];
+      cul.productos = [productoEntity];
+      await this.cultureEntityRepository.save(cultura);
+    }
+
+    cultura = await this.cultureEntityRepository.findOne({
+      where: { id: productoEntity.id },
+      relations: ['productos'],
+    });
+
+    cultura.productos = [...cultura.productos, product];
+    return await this.cultureEntityRepository.save(cultura);
+  }
+
+  async updateProductAndCulture(id: string, productoEntity: ProductoEntity) {
+    const persistedCultura: CulturaEntity =
+      await this.cultureEntityRepository.findOne({ where: { id } });
+
+    if (!persistedCultura)
+      throw new BusinessLogicException(
+        'La cultura  con id dado no se encontró',
+        BusinessError.NOT_FOUND,
+      );
+
+    persistedCultura.id = id;
+    persistedCultura.nombre = productoEntity.nombre;
+    persistedCultura.descripcion = productoEntity.descripcion;
+    persistedCultura.productos = [productoEntity];
+    await this.cultureEntityRepository.save(persistedCultura);
+
+    const productCultura: ProductoEntity =
+      await this.productoEntityRepository.findOne({ where: { id } });
+
+    if (!productCultura)
+      throw new BusinessLogicException(
+        'El producto  con id dado no se encontró',
+        BusinessError.NOT_FOUND,
+      );
+    productCultura.id = id;
+    productCultura.nombre = productoEntity.nombre;
+    productCultura.descripcion = productoEntity.descripcion;
+    productCultura.historia = productoEntity.historia;
+    productCultura.categoria = productCultura.historia;
+    return await this.productoEntityRepository.save(productCultura);
+  }
+
+  async deleteProductAndCulture(id: string) {
+    const cultura: CulturaEntity = await this.cultureEntityRepository.findOne({
+      where: { id },
+    });
+    if (!cultura)
+      throw new BusinessLogicException(
+        'La cultura gastronomica con id dado no se encontró',
+        BusinessError.NOT_FOUND,
+      );
+
+    await this.cultureEntityRepository.remove(cultura);
+
     const product: ProductoEntity = await this.productoEntityRepository.findOne(
       {
         where: { id },
