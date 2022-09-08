@@ -1,5 +1,5 @@
 import { CulturaEntity } from '../cultura/cultura.entity';
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity,  PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
 
 @Entity()
 export class RecetaEntity {
