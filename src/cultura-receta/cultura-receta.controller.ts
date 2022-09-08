@@ -3,17 +3,19 @@ import { CulturaRecetaService } from './cultura-receta.service';
 import { plainToInstance } from 'class-transformer';
 import { RecetaEntity } from '../receta/receta.entity';
 import { RecetaDto} from '../receta/receta.dto';
+import { BusinessErrorsInterceptor } from '../shared/interceptors/business-errors.interceptor';
 
 
 @Controller('culturagastronomica')
+@UseInterceptors(BusinessErrorsInterceptor)
 export class CulturaRecetaController {
     constructor(private readonly culturaRecetaService: CulturaRecetaService) {}
 
-    @Post(':culturaId/receta/:artworkId')
+    @Post(':culturaId/receta/:recetaId')
    async addRecetaCultura(@Param('culturaId') culturaId: string, @Param('recetaId') recetaId: string){
        return await this.culturaRecetaService.addRecetaCultura(culturaId, recetaId);
    }
-   @Get(':culturaId/receta/:artworkId')
+   @Get(':culturaId/receta/:recetaId')
    async findRecetaByCulturaIdRecetaId(@Param('culturaId') culturaId: string, @Param('recetaId') recetaId: string){
        return await this.culturaRecetaService.findRecetaByCulturaIdRecetaId(culturaId, recetaId);
 
@@ -29,7 +31,7 @@ export class CulturaRecetaController {
        return await this.culturaRecetaService.associateRecetasCultura(culturaId, recetas);
    }
 
-   @Delete(':culturaId/receta/:artworkId')
+   @Delete(':culturaId/receta/:recetaId')
    @HttpCode(204)
    async deleteRecetaCultura(@Param('culturaId') culturaId: string, @Param('recetaId') recetaId: string){
        return await this.culturaRecetaService.deleteRecetaCultura(culturaId, recetaId);
