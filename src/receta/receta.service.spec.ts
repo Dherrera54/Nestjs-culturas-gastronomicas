@@ -69,5 +69,22 @@ describe('RecetaService', () => {
     expect(storedReceta.proceso).toEqual(newReceta.proceso);
     expect(storedReceta.video).toEqual(newReceta.video);
   });
+  it('delete should remove a recipe', async () => {
+    const receta: RecetaEntity = recetaList[0];
+    await service.delete(receta.id);
+    const deletedReceta: RecetaEntity = await repository.findOne({
+      where: { id: receta.id },
+    });
+    expect(deletedReceta).toBeNull();
+  });
+
+  it('delete should throw an exception for an invalid recipe', async () => {
+    const receta: RecetaEntity = recetaList[0];
+    await service.delete(receta.id);
+    await expect(() => service.delete('0')).rejects.toHaveProperty(
+      'message',
+      'La receta con id dado no se encontró',
+    );
+  });
 
 });

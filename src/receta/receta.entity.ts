@@ -17,5 +17,5 @@ export class RecetaEntity {
   video: string;
 
   @ManyToOne(() => CulturaEntity, (cultura) => cultura.recetas)
-  cultura: CulturaEntity;
+  cultura?: CulturaEntity;
 }

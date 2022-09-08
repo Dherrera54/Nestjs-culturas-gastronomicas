@@ -1,4 +1,4 @@
-import { Controller,UseInterceptors, Post, Body } from '@nestjs/common';
+import { Controller,UseInterceptors, Post, Body, Delete, HttpCode, Param } from '@nestjs/common';
 import { RecetaService } from './receta.service';
 import { RecetaEntity } from './receta.entity';
 import { RecetaDto } from './receta.dto';
@@ -14,6 +14,11 @@ export class RecetaController {
     async create(@Body() recetaDto: RecetaDto) {
       const receta: RecetaEntity = plainToInstance(RecetaEntity, recetaDto);
       return await this.recetaService.create(receta);
+    }
+    @Delete(':recetaId')
+    @HttpCode(204)
+    async delete(@Param('recetaId') recetaId: string) {
+      return await this.recetaService.delete(recetaId);
     }
 
 }
