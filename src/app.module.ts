@@ -15,6 +15,7 @@ import { ProductoModule } from './producto/producto.module';
 import { ProductoEntity } from './producto/producto.entity';
 import { CulturaRestaurantesModule } from './cultura-restaurantes/cultura-restaurantes.module';
 import { PaisRestauranteModule } from './pais-restaurante/pais-restaurante.module';
+import { CulturaRestaurantesController } from './cultura-restaurantes/cultura-restaurantes.controller';
 
 @Module({
   imports: [
