@@ -13,7 +13,7 @@ export class RestauranteDto {
  @IsNotEmpty()
  readonly estrellas: string;
  
- @IsDate()
+
  @IsNotEmpty()
  readonly fecha: string;
  
