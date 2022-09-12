@@ -1,4 +1,5 @@
-import {IsNotEmpty,IsString} from 'class-validator';
+import {IsNotEmpty, IsString} from 'class-validator';
+
 export class CulturaDto {
 
  @IsString()
@@ -9,4 +10,5 @@ export class CulturaDto {
  @IsNotEmpty()
  readonly descripcion: string;
  
+
 }
