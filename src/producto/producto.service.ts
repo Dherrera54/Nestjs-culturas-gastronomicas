@@ -30,7 +30,7 @@ export class ProductoService {
     );
     if (!product)
       throw new BusinessLogicException(
-        'La cultura gastronomica con id dado no se encontró',
+        'El producto  con id dado no se encontró',
         BusinessError.NOT_FOUND,
       );
 
@@ -60,9 +60,7 @@ export class ProductoService {
 
   async getProductWithRelationShipToCulture(name: string) {
     const cultura = await this.cultureEntityRepository.find();
-    return cultura.filter((word) =>
-      word.nombre.toLowerCase().includes(name.toLowerCase()),
-    );
+    return cultura.filter((word) => word.nombre.includes(name));
   }
 
   async createProductAndCulture(productoEntity: ProductoEntity) {
@@ -90,7 +88,7 @@ export class ProductoService {
       cul.restaurantes = [];
       cul.paises = [];
       cul.productos = [productoEntity];
-      await this.cultureEntityRepository.save(cultura);
+      await this.cultureEntityRepository.save(cul);
     }
 
     cultura = await this.cultureEntityRepository.findOne({
@@ -140,7 +138,7 @@ export class ProductoService {
     });
     if (!cultura)
       throw new BusinessLogicException(
-        'La cultura gastronomica con id dado no se encontró',
+        'El producto con id dado no se encontró',
         BusinessError.NOT_FOUND,
       );
 

@@ -21,13 +21,14 @@ export class productoController {
   constructor(private readonly productoService: ProductoService) {}
 
   @Get()
-  async getProductWithRelationShipToCulture() {
+  async get() {
     return await this.productoService.findAll();
   }
 
   @Get(':productoId')
-  async findOne(@Param('id') paisId: string) {
-    return await this.productoService.findOne(paisId);
+  async findOne(@Param('id') productoId: string) {
+    console.log(productoId);
+    return await this.productoService.findOne(productoId);
   }
 
   @Post()
@@ -39,7 +40,7 @@ export class productoController {
     return await this.productoService.create(productoEntity);
   }
 
-  @Put(':id')
+  @Put(':add')
   async update(@Param('id') id: string, @Body() productoDto: ProductoDto) {
     const producto: ProductoEntity = plainToInstance(
       ProductoEntity,
@@ -48,7 +49,7 @@ export class productoController {
     return await this.productoService.update(id, producto);
   }
 
-  @Delete(':id')
+  @Delete(':delete')
   @HttpCode(204)
   async delete(@Param('id') id: string) {
     return await this.productoService.deleteProductAndCulture(id);
