@@ -7,6 +7,6 @@ import { PaisController } from './pais.controller';
 @Module({
   imports: [TypeOrmModule.forFeature([PaisEntity])],
   providers: [PaisService],
-  controllers: [PaisController]
+  controllers: [PaisController],
 })
 export class PaisModule {}

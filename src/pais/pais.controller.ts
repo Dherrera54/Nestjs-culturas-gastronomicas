@@ -1,5 +1,14 @@
-/* eslint-disable prettier/prettier */
-import { Body, Controller, Delete, Get, HttpCode, Param, Post, Put, UseInterceptors } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  HttpCode,
+  Param,
+  Post,
+  Put,
+  UseInterceptors,
+} from '@nestjs/common';
 import { plainToInstance } from 'class-transformer';
 import { BusinessErrorsInterceptor } from '../shared/interceptors/business-errors.interceptor';
 import { PaisDto } from './pais.dto';
@@ -9,7 +18,7 @@ import { PaisService } from './pais.service';
 @Controller('paises')
 @UseInterceptors(BusinessErrorsInterceptor)
 export class PaisController {
-    constructor(private readonly paisService: PaisService) {}
+  constructor(private readonly paisService: PaisService) {}
 
   @Get()
   async findAll() {
@@ -39,5 +48,3 @@ export class PaisController {
     return await this.paisService.delete(paisId);
   }
 }
-
-/* archivo: src/pais/pais.controller.ts */

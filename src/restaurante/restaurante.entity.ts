@@ -9,7 +9,6 @@ import {
 import { CulturaEntity } from '../cultura/cultura.entity';
 import { PaisEntity } from '../pais/pais.entity';
 
-
 @Entity()
 export class RestauranteEntity {
   @PrimaryGeneratedColumn('uuid')

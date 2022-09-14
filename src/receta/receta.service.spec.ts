@@ -7,7 +7,6 @@ import { RecetaEntity } from './receta.entity';
 import { faker } from '@faker-js/faker';
 import { CulturaEntity } from '../cultura/cultura.entity';
 
-
 describe('RecetaService', () => {
   let service: RecetaService;
   let repository: Repository<RecetaEntity>;
@@ -35,7 +34,7 @@ describe('RecetaService', () => {
         descripcion: faker.lorem.sentence(),
         foto: faker.image.cats(),
         proceso: faker.lorem.sentence(),
-        video: faker.image.cats()
+        video: faker.image.cats(),
       });
       recetaList.push(receta);
     }
@@ -52,8 +51,7 @@ describe('RecetaService', () => {
       foto: faker.image.cats(),
       proceso: faker.lorem.sentence(),
       video: faker.image.cats(),
-      cultura: cultura
-    
+      cultura: cultura,
     };
 
     const newReceta: RecetaEntity = await service.create(cd);
@@ -86,5 +84,4 @@ describe('RecetaService', () => {
       'La receta con id dado no se encontró',
     );
   });
-
 });

@@ -1,5 +1,5 @@
 import { IsNotEmpty, IsString, IsUrl } from 'class-validator';
-export class PaisDto {
+export class ProductoDto {
   @IsString()
   @IsNotEmpty()
   readonly nombre: string;
@@ -7,4 +7,12 @@ export class PaisDto {
   @IsString()
   @IsNotEmpty()
   readonly descripcion: string;
+
+  @IsString()
+  @IsNotEmpty()
+  readonly historia: string;
+
+  @IsString()
+  @IsNotEmpty()
+  readonly categoria: string;
 }
