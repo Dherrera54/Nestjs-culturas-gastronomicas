@@ -8,6 +8,6 @@ import { CulturaRestaurantesController } from './cultura-restaurantes.controller
 @Module({
   imports: [TypeOrmModule.forFeature([CulturaEntity, RestauranteEntity])],
   providers: [CulturaRestaurantesService],
-  controllers: [CulturaRestaurantesController]
+  controllers: [CulturaRestaurantesController],
 })
 export class CulturaRestaurantesModule {}

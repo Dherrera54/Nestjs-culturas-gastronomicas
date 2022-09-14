@@ -12,7 +12,7 @@ describe('CulturaRestaurantesService', () => {
   let culturaRepository: Repository<CulturaEntity>;
   let restauranteRepository: Repository<RestauranteEntity>;
   let cultura: CulturaEntity;
-  let restaurantesList : RestauranteEntity[];
+  let restaurantesList: RestauranteEntity[];
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -20,9 +20,15 @@ describe('CulturaRestaurantesService', () => {
       providers: [CulturaRestaurantesService],
     }).compile();
 
-    service = module.get<CulturaRestaurantesService>(CulturaRestaurantesService);
-    culturaRepository = module.get<Repository<CulturaEntity>>(getRepositoryToken(CulturaEntity));
-    restauranteRepository = module.get<Repository<RestauranteEntity>>(getRepositoryToken(RestauranteEntity));
+    service = module.get<CulturaRestaurantesService>(
+      CulturaRestaurantesService,
+    );
+    culturaRepository = module.get<Repository<CulturaEntity>>(
+      getRepositoryToken(CulturaEntity),
+    );
+    restauranteRepository = module.get<Repository<RestauranteEntity>>(
+      getRepositoryToken(RestauranteEntity),
+    );
 
     await seedDatabase();
   });
@@ -32,24 +38,22 @@ describe('CulturaRestaurantesService', () => {
     culturaRepository.clear();
 
     restaurantesList = [];
-    for(let i = 0; i < 5; i++){
-        const restaurante: RestauranteEntity = await restauranteRepository.save({
-          nombre: faker.company.name(),
-          ciudad: faker.lorem.sentence(),
-          estrellas: faker.datatype.number(),
-          fecha: faker.date.birthdate()
-        })
-        restaurantesList.push(restaurante);
+    for (let i = 0; i < 5; i++) {
+      const restaurante: RestauranteEntity = await restauranteRepository.save({
+        nombre: faker.company.name(),
+        ciudad: faker.lorem.sentence(),
+        estrellas: faker.datatype.number(),
+        fecha: faker.date.birthdate(),
+      });
+      restaurantesList.push(restaurante);
     }
 
     cultura = await culturaRepository.save({
       nombre: faker.company.name(),
       descripcion: faker.lorem.sentence(),
       restaurantes: restaurantesList,
-
-    })
-  }
-
+    });
+  };
 
   it('should be defined', () => {
     expect(service).toBeDefined();
@@ -60,7 +64,7 @@ describe('CulturaRestaurantesService', () => {
       nombre: faker.company.name(),
       ciudad: faker.lorem.sentence(),
       estrellas: faker.datatype.number(),
-      fecha: faker.date.birthdate()
+      fecha: faker.date.birthdate(),
     });
 
     const newCultura: CulturaEntity = await culturaRepository.save({
@@ -88,7 +92,10 @@ describe('CulturaRestaurantesService', () => {
 
     await expect(() =>
       service.addRestauranteCultura(newCultura.id, '0'),
-    ).rejects.toHaveProperty('message', 'El restaurante con el id dado no fue encontrado');
+    ).rejects.toHaveProperty(
+      'message',
+      'El restaurante con el id dado no fue encontrado',
+    );
   });
 
   it('addRestauranteCultura should throw an exception for an invalid cultura', async () => {
@@ -96,7 +103,7 @@ describe('CulturaRestaurantesService', () => {
       nombre: faker.company.name(),
       ciudad: faker.lorem.sentence(),
       estrellas: faker.datatype.number(),
-      fecha: faker.date.birthdate()
+      fecha: faker.date.birthdate(),
     });
 
     await expect(() =>
@@ -110,18 +117,23 @@ describe('CulturaRestaurantesService', () => {
   it('findRestauranteByCulturaIdRestauranteId should return restaurante by cultura', async () => {
     const restaurante: RestauranteEntity = restaurantesList[0];
     const storedRestaurante: RestauranteEntity =
-      await service.findRestauranteByCulturaIdRestauranteId(cultura.id, restaurante.id);
+      await service.findRestauranteByCulturaIdRestauranteId(
+        cultura.id,
+        restaurante.id,
+      );
     expect(storedRestaurante).not.toBeNull();
     expect(storedRestaurante.nombre).toBe(restaurante.nombre);
     expect(storedRestaurante.ciudad).toBe(restaurante.ciudad);
     expect(storedRestaurante.estrellas).toBe(restaurante.estrellas);
   });
 
-
   it('findRestauranteByCulturaIdRestauranteId should throw an exception for an invalid restaurante', async () => {
     await expect(() =>
       service.findRestauranteByCulturaIdRestauranteId(cultura.id, '0'),
-    ).rejects.toHaveProperty('message', 'El restaurante con el id dado no fue encontrado');
+    ).rejects.toHaveProperty(
+      'message',
+      'El restaurante con el id dado no fue encontrado',
+    );
   });
 
   it('findRestauranteByCulturaIdRestauranteId should throw an exception for an invalid cultura', async () => {
@@ -139,11 +151,14 @@ describe('CulturaRestaurantesService', () => {
       nombre: faker.company.name(),
       ciudad: faker.lorem.sentence(),
       estrellas: faker.datatype.number(),
-      fecha: faker.date.birthdate()
+      fecha: faker.date.birthdate(),
     });
 
     await expect(() =>
-      service.findRestauranteByCulturaIdRestauranteId(cultura.id, newRestaurante.id),
+      service.findRestauranteByCulturaIdRestauranteId(
+        cultura.id,
+        newRestaurante.id,
+      ),
     ).rejects.toHaveProperty(
       'message',
       'El restaurante con el id dado no esta asociado a la cultura gastronomica',
@@ -151,9 +166,8 @@ describe('CulturaRestaurantesService', () => {
   });
 
   it('findRestaurantesByCulturaId should return restaurantes by cultura', async () => {
-    const restaurantes: RestauranteEntity[] = await service.findRestaurantesByCulturaId(
-      cultura.id,
-    );
+    const restaurantes: RestauranteEntity[] =
+      await service.findRestaurantesByCulturaId(cultura.id);
     expect(restaurantes.length).toBe(5);
   });
 
@@ -171,17 +185,17 @@ describe('CulturaRestaurantesService', () => {
       nombre: faker.company.name(),
       ciudad: faker.lorem.sentence(),
       estrellas: faker.datatype.number(),
-      fecha: faker.date.birthdate()
+      fecha: faker.date.birthdate(),
     });
 
-    const updatedCultura: CulturaEntity = await service.associateRestaurantesCultura(
-      cultura.id,
-      [newRestaurante],
-    );
+    const updatedCultura: CulturaEntity =
+      await service.associateRestaurantesCultura(cultura.id, [newRestaurante]);
     expect(updatedCultura.restaurantes.length).toBe(1);
     expect(updatedCultura.restaurantes[0].nombre).toBe(newRestaurante.nombre);
     expect(updatedCultura.restaurantes[0].ciudad).toBe(newRestaurante.ciudad);
-    expect(updatedCultura.restaurantes[0].estrellas).toBe(newRestaurante.estrellas);
+    expect(updatedCultura.restaurantes[0].estrellas).toBe(
+      newRestaurante.estrellas,
+    );
     expect(updatedCultura.restaurantes[0].fecha).toBe(newRestaurante.fecha);
   });
 
@@ -190,7 +204,7 @@ describe('CulturaRestaurantesService', () => {
       nombre: faker.company.name(),
       ciudad: faker.lorem.sentence(),
       estrellas: faker.datatype.number(),
-      fecha: faker.date.birthdate()
+      fecha: faker.date.birthdate(),
     });
 
     await expect(() =>
@@ -207,7 +221,10 @@ describe('CulturaRestaurantesService', () => {
 
     await expect(() =>
       service.associateRestaurantesCultura(cultura.id, [newRestaurante]),
-    ).rejects.toHaveProperty('message', 'El restaurante con el id dado no fue encontrado');
+    ).rejects.toHaveProperty(
+      'message',
+      'El restaurante con el id dado no fue encontrado',
+    );
   });
 
   it('deleteRestauranteToCultura should remove an restaurante from a cultura', async () => {
@@ -219,9 +236,8 @@ describe('CulturaRestaurantesService', () => {
       where: { id: cultura.id },
       relations: ['restaurantes'],
     });
-    const deletedRestaurante: RestauranteEntity = storedCultura.restaurantes.find(
-      (a) => a.id === restaurante.id,
-    );
+    const deletedRestaurante: RestauranteEntity =
+      storedCultura.restaurantes.find((a) => a.id === restaurante.id);
 
     expect(deletedRestaurante).toBeUndefined();
   });
@@ -229,7 +245,10 @@ describe('CulturaRestaurantesService', () => {
   it('deleteRestauranteToCultura should thrown an exception for an invalid restaurante', async () => {
     await expect(() =>
       service.deleteRestauranteCultura(cultura.id, '0'),
-    ).rejects.toHaveProperty('message', 'El restaurante con el id dado no fue encontrado');
+    ).rejects.toHaveProperty(
+      'message',
+      'El restaurante con el id dado no fue encontrado',
+    );
   });
 
   it('deleteRestauranteToCultura should thrown an exception for an invalid cultura', async () => {
@@ -247,7 +266,7 @@ describe('CulturaRestaurantesService', () => {
       nombre: faker.company.name(),
       ciudad: faker.lorem.sentence(),
       estrellas: faker.datatype.number(),
-      fecha: faker.date.birthdate()
+      fecha: faker.date.birthdate(),
     });
 
     await expect(() =>
@@ -257,5 +276,4 @@ describe('CulturaRestaurantesService', () => {
       'El restaurante con el id dado no esta asociado a la cultura gastronomica',
     );
   });
-
 });
