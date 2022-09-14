@@ -69,7 +69,7 @@ describe('ProductoService', () => {
   it('findOne should throw an exception for an invalid product', async () => {
     await expect(() => service.findOne('0')).rejects.toHaveProperty(
       'message',
-      'La cultura gastronomica con id dado no se encontró',
+      'El producto  con id dado no se encontró',
     );
   });
 
