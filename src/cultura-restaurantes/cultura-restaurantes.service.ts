@@ -34,8 +34,9 @@ export class CulturaRestaurantesService {
 
     const cultura: CulturaEntity = await this.culturaRepository.findOne({
       where: { id: culturaId },
-      relations: ['recetas', 'restaurantes', 'paises'],
+      relations: ['restaurantes'],
     });
+
     if (!cultura)
       throw new BusinessLogicException(
         'La cultura con el id dado no fue encontrada',
