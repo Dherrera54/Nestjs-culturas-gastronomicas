@@ -5,9 +5,10 @@ import { ProductoService } from './producto.service';
 import { ProductoEntity } from './producto.entity';
 import { productoController } from './producto.controller';
 import { ProductAndCultureController } from './productAndCulture.controller';
+import { JwtService } from '@nestjs/jwt';
 
 @Module({
-  providers: [ProductoService],
+  providers: [ProductoService, JwtService],
   imports: [TypeOrmModule.forFeature([ProductoEntity, CulturaEntity])],
   controllers: [productoController, ProductAndCultureController],
 })
