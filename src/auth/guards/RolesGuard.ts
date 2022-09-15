@@ -1,4 +1,9 @@
-import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
+import {
+  CanActivate,
+  ExecutionContext,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { Reflector } from '@nestjs/core';
 
@@ -18,6 +23,12 @@ export class RolesGuard implements CanActivate {
       complete: true,
       json: true,
     });
+
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    if (!decrypToken.payload.roles.includes(roleName)) {
+      throw new UnauthorizedException();
+    }
     return true;
   }
 }

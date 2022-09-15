@@ -7,6 +7,8 @@ import {
   Param,
   Post,
   Put,
+  SetMetadata,
+  UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
 import { plainToInstance } from 'class-transformer';
@@ -14,6 +16,9 @@ import { BusinessErrorsInterceptor } from '../shared/interceptors/business-error
 import { ProductoService } from './producto.service';
 import { ProductoDto } from './producto.dto';
 import { ProductoEntity } from './producto.entity';
+import { Action } from '../user/Action ';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
+import { RolesGuard } from '../auth/guards/RolesGuard';
 
 @Controller('producto')
 @UseInterceptors(BusinessErrorsInterceptor)
@@ -26,12 +31,16 @@ export class productoController {
   }
 
   @Get(':productoId')
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @SetMetadata('roleName', Action.Read)
   async findOne(@Param('id') productoId: string) {
     console.log(productoId);
     return await this.productoService.findOne(productoId);
   }
 
   @Post()
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @SetMetadata('roleName', Action.Create)
   async create(@Body() productoDto: ProductoDto) {
     const productoEntity: ProductoEntity = plainToInstance(
       ProductoEntity,
@@ -41,6 +50,8 @@ export class productoController {
   }
 
   @Put(':add')
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @SetMetadata('roleName', Action.Update)
   async update(@Param('id') id: string, @Body() productoDto: ProductoDto) {
     const producto: ProductoEntity = plainToInstance(
       ProductoEntity,
@@ -51,6 +62,8 @@ export class productoController {
 
   @Delete(':delete')
   @HttpCode(204)
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @SetMetadata('roleName', Action.Delete)
   async delete(@Param('id') id: string) {
     return await this.productoService.deleteProductAndCulture(id);
   }
