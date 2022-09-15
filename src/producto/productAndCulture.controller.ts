@@ -17,7 +17,11 @@ import { ProductoService } from './producto.service';
 import { ProductoDto } from './producto.dto';
 import { ProductoEntity } from './producto.entity';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
 import { RolesGuard } from '../auth/guards/RolesGuard';
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
 import { Action } from '../user/Action ';
 
 @Controller('productoAndCulture')
