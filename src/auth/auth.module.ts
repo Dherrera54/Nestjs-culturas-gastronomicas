@@ -8,17 +8,16 @@ import { AuthService } from './auth.service';
 import { LocalStrategy } from './strategies/local-strategy';
 import { JwtStrategy } from './strategies/jwt-strategy';
 
-
 @Module({
-   imports: [
-       UserModule,
-       PassportModule,
-       JwtModule.register({
-         secret: constants.JWT_SECRET,
-         signOptions: { expiresIn: constants.JWT_EXPIRES_IN },
-       })
-     ],
-   providers: [AuthService, UserService, JwtService, LocalStrategy, JwtStrategy],
-  exports: [AuthService]
+  imports: [
+    UserModule,
+    PassportModule,
+    JwtModule.register({
+      secret: constants.JWT_SECRET,
+      signOptions: { expiresIn: constants.JWT_EXPIRES_IN },
+    }),
+  ],
+  providers: [AuthService, UserService, JwtService, LocalStrategy, JwtStrategy],
+  exports: [AuthService],
 })
 export class AuthModule {}
