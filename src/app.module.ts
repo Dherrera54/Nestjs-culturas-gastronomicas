@@ -16,6 +16,8 @@ import { ProductoEntity } from './producto/producto.entity';
 import { CulturaRestaurantesModule } from './cultura-restaurantes/cultura-restaurantes.module';
 import { PaisRestauranteModule } from './pais-restaurante/pais-restaurante.module';
 import { CulturaRestaurantesController } from './cultura-restaurantes/cultura-restaurantes.controller';
+import { UserModule } from './user/user.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -45,6 +47,8 @@ import { CulturaRestaurantesController } from './cultura-restaurantes/cultura-re
     CulturaRecetaModule,
     CulturaRestaurantesModule,
     PaisRestauranteModule,
+    UserModule,
+    AuthModule,
   ],
 
   controllers: [AppController],
