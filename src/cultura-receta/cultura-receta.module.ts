@@ -4,9 +4,10 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { CulturaEntity } from '../cultura/cultura.entity';
 import { RecetaEntity } from '../receta/receta.entity';
 import { CulturaRecetaController } from './cultura-receta.controller';
+import { JwtService } from '@nestjs/jwt';
 
 @Module({
-  providers: [CulturaRecetaService],
+  providers: [CulturaRecetaService, JwtService],
   imports: [TypeOrmModule.forFeature([CulturaEntity, RecetaEntity])],
   controllers: [CulturaRecetaController],
 })
