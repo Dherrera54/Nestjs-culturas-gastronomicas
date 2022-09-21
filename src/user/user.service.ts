@@ -11,10 +11,12 @@ export class UserService {
       Action.Create,
       Action.Delete,
       Action.Update,
+      Action.READ_PRODUCT,
     ]),
     new User(2, 'user', 'admin', [Action.Read]), //usuario con permisos de lectura para todos los recursos
     new User(3, 'user_2', 'admin', [Action.Create, Action.Update]), //usuario con permisos de escritura (creación y actualización)
     new User(4, 'user_3', 'admin', [Action.Delete]), //con permisos de eliminación
+    new User(5, 'user', 'test', [Action.READ_PRODUCT]),
   ];
 
   async findOne(username: string): Promise<User | undefined> {
