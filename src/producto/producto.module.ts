@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { CacheModule, Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { CulturaEntity } from '../cultura/cultura.entity';
 import { ProductoService } from './producto.service';
@@ -9,7 +9,10 @@ import { JwtService } from '@nestjs/jwt';
 
 @Module({
   providers: [ProductoService, JwtService],
-  imports: [TypeOrmModule.forFeature([ProductoEntity, CulturaEntity])],
+  imports: [
+    TypeOrmModule.forFeature([ProductoEntity, CulturaEntity]),
+    CacheModule.register(),
+  ],
   controllers: [productoController, ProductAndCultureController],
 })
 export class ProductoModule {}

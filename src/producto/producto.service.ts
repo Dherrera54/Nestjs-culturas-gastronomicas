@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { CACHE_MANAGER, Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import {
@@ -11,15 +11,32 @@ import { RecetaEntity } from '../receta/receta.entity';
 
 @Injectable()
 export class ProductoService {
+  cacheProductoKey = 'producto';
+  cacheProductRestaurantKey = 'producto_restaurante';
   constructor(
     @InjectRepository(ProductoEntity)
     private readonly productoEntityRepository: Repository<ProductoEntity>,
     @InjectRepository(CulturaEntity)
     private readonly cultureEntityRepository: Repository<CulturaEntity>,
+
+    @Inject(CACHE_MANAGER)
+    private readonly cacheManager: Cache,
   ) {}
 
   async findAll(): Promise<ProductoEntity[]> {
-    return await this.productoEntityRepository.find({ relations: ['cultura'] });
+    const cached: ProductoEntity[] = await this.productoEntityRepository.find({
+      relations: ['cultura'],
+    });
+
+    if (!cached) {
+      const restaurantes: ProductoEntity[] =
+        await this.productoEntityRepository.find({ relations: ['culturas'] });
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      await this.cacheManager.set(this.cacheProductoKey, restaurantes);
+      return restaurantes;
+    }
+    return cached;
   }
 
   async findOne(id: string): Promise<ProductoEntity> {
