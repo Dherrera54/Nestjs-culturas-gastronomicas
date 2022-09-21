@@ -1,6 +1,7 @@
 import { CACHE_MANAGER, Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { Cache } from 'cache-manager';
 import {
   BusinessError,
   BusinessLogicException,
@@ -24,13 +25,13 @@ export class ProductoService {
   ) {}
 
   async findAll(): Promise<ProductoEntity[]> {
-    const cached: ProductoEntity[] = await this.productoEntityRepository.find({
-      relations: ['cultura'],
-    });
+    const cached: ProductoEntity[] = await this.cacheManager.get<
+      ProductoEntity[]
+    >(this.cacheProductoKey);
 
     if (!cached) {
       const restaurantes: ProductoEntity[] =
-        await this.productoEntityRepository.find({ relations: ['culturas'] });
+        await this.productoEntityRepository.find({ relations: ['cultura'] });
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       await this.cacheManager.set(this.cacheProductoKey, restaurantes);
