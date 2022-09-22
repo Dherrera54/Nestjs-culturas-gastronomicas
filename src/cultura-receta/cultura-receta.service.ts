@@ -1,8 +1,9 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Inject, CACHE_MANAGER } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CulturaEntity } from '../cultura/cultura.entity';
 import { RecetaEntity } from '../receta/receta.entity';
+import { Cache } from 'cache-manager';
 import {
   BusinessError,
   BusinessLogicException,
@@ -10,12 +11,18 @@ import {
 
 @Injectable()
 export class CulturaRecetaService {
+
+  cacheKey: string = "artists";
+
   constructor(
     @InjectRepository(CulturaEntity)
     private readonly culturaRepository: Repository<CulturaEntity>,
 
     @InjectRepository(RecetaEntity)
     private readonly recetaRepository: Repository<RecetaEntity>,
+
+    @Inject(CACHE_MANAGER)
+    private readonly cacheManager: Cache
   ) {}
 
   async addRecetaCultura(
@@ -82,17 +89,22 @@ export class CulturaRecetaService {
   }
 
   async findRecetasByCulturaId(culturaId: string): Promise<RecetaEntity[]> {
-    const cultura: CulturaEntity = await this.culturaRepository.findOne({
-      where: { id: culturaId },
-      relations: ['recetas'],
-    });
-    if (!cultura)
-      throw new BusinessLogicException(
-        'La cultura gastronomica con id dado no se encontró',
-        BusinessError.NOT_FOUND,
-      );
-
-    return cultura.recetas;
+    const cached: RecetaEntity[] = await this.cacheManager.get<RecetaEntity[]>(this.cacheKey);
+    
+    if(!cached){
+        const cultura: CulturaEntity = await this.culturaRepository.findOne({
+          where: { id: culturaId },
+          relations: ['recetas'],
+        });
+        if (!cultura)
+          throw new BusinessLogicException(
+            'La cultura gastronomica con id dado no se encontró',
+            BusinessError.NOT_FOUND,
+          );
+        await this.cacheManager.set(this.cacheKey, cultura.recetas);
+        return cultura.recetas;
+        }
+    return cached;   
   }
 
   async associateRecetasCultura(

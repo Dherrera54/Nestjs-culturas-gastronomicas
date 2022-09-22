@@ -23,7 +23,7 @@ export class CulturaEntity {
   descripcion: string;
 
   @OneToMany(() => RecetaEntity, (receta) => receta.cultura)
-  recetas?: RecetaEntity[];
+  recetas: RecetaEntity[];
 
   @ManyToMany(() => RestauranteEntity, (restaurante) => restaurante.culturas)
   @JoinTable()

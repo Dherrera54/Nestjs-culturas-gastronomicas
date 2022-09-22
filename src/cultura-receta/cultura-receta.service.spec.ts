@@ -6,6 +6,7 @@ import { faker } from '@faker-js/faker';
 import { CulturaRecetaService } from './cultura-receta.service';
 import { RecetaEntity } from '../receta/receta.entity';
 import { CulturaEntity } from '../cultura/cultura.entity';
+import { CacheModule } from '@nestjs/common';
 
 describe('CulturaRecetaService', () => {
   let service: CulturaRecetaService;
@@ -16,7 +17,7 @@ describe('CulturaRecetaService', () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      imports: [...TypeOrmTestingConfig()],
+      imports: [...TypeOrmTestingConfig(),CacheModule.register()],
       providers: [CulturaRecetaService],
     }).compile();
 

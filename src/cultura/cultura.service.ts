@@ -23,7 +23,7 @@ export class CulturaService {
     const cached: CulturaEntity[] = await this.cacheManager.get<CulturaEntity[]>(this.cacheKey);
 
     if(!cached){
-      const culturas: CulturaEntity[] = await this.culturaRepository.find({ relations: ['recetas'] });
+      const culturas: CulturaEntity[] = await this.culturaRepository.find({ relations: ['recetas','paises', 'restaurantes','productos'] });
       await this.cacheManager.set(this.cacheKey, culturas);
       return culturas;
 
