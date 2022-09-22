@@ -30,6 +30,8 @@ export class productoController {
   constructor(private readonly productoService: ProductoService) {}
 
   @Get()
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @SetMetadata('roleName', Action.READ_PRODUCT)
   async get() {
     return await this.productoService.findAll();
   }

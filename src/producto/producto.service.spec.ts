@@ -8,6 +8,7 @@ import { ProductoService } from './producto.service';
 import { ProductoEntity } from './producto.entity';
 import { CulturaEntity } from '../cultura/cultura.entity';
 import { RecetaEntity } from '../receta/receta.entity';
+import { CacheModule } from '@nestjs/common';
 
 describe('ProductoService', () => {
   let service: ProductoService;
@@ -18,7 +19,7 @@ describe('ProductoService', () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      imports: [...TypeOrmTestingConfig()],
+      imports: [...TypeOrmTestingConfig(), CacheModule.register()],
       providers: [ProductoService],
     }).compile();
 
