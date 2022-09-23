@@ -3,10 +3,11 @@ import { PaisService } from './pais.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { PaisEntity } from './pais.entity';
 import { PaisController } from './pais.controller';
+import { JwtService } from '@nestjs/jwt';
 
 @Module({
   imports: [TypeOrmModule.forFeature([PaisEntity])],
-  providers: [PaisService],
+  providers: [PaisService, JwtService],
   controllers: [PaisController],
 })
 export class PaisModule {}
