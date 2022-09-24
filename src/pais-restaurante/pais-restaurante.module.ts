@@ -8,7 +8,7 @@ import { JwtService } from '@nestjs/jwt';
 
 @Module({
   providers: [PaisRestauranteService, JwtService],
-  imports: [TypeOrmModule.forFeature([PaisEntity, RestauranteEntity]), , CacheModule.register()],
+  imports: [TypeOrmModule.forFeature([PaisEntity, RestauranteEntity]), CacheModule.register()],
   controllers: [PaisRestauranteController],
 })
 export class PaisRestauranteModule {}
