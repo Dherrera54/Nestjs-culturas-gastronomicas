@@ -9,7 +9,7 @@ import { Cache } from 'cache-manager';
 @Injectable()
 export class PaisService {
 
-  cacheKey: string = "paises";
+  cacheKey: string = "paislist";
 
   constructor(
     @InjectRepository(PaisEntity)
