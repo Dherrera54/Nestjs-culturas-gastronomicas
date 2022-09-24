@@ -1,9 +1,10 @@
 /* archivo: src/pais-restaurante/pais-restaurante.service.ts */
-import { Injectable } from '@nestjs/common';
+import { Injectable, Inject, CACHE_MANAGER } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { RestauranteEntity } from '../restaurante/restaurante.entity';
 import { PaisEntity } from '../pais/pais.entity';
 import { Repository } from 'typeorm';
+import { Cache } from 'cache-manager';
 import {
   BusinessError,
   BusinessLogicException,
@@ -11,12 +12,19 @@ import {
 
 @Injectable()
 export class PaisRestauranteService {
+
+  cacheKey: string = "restaurantes";
+
   constructor(
     @InjectRepository(PaisEntity)
     private readonly paisRepository: Repository<PaisEntity>,
 
     @InjectRepository(RestauranteEntity)
     private readonly restauranteRepository: Repository<RestauranteEntity>,
+
+    @Inject(CACHE_MANAGER)
+    private readonly cacheManager: Cache,
+
   ) {}
 
   async addRestaurantePais(
@@ -85,17 +93,22 @@ export class PaisRestauranteService {
   }
 
   async findRestaurantesByPaisId(paisId: string): Promise<RestauranteEntity[]> {
-    const pais: PaisEntity = await this.paisRepository.findOne({
-      where: { id: paisId },
-      relations: ['restaurantes'],
-    });
-    if (!pais)
-      throw new BusinessLogicException(
-        'The pais with the given id was not found',
-        BusinessError.NOT_FOUND,
-      );
-
-    return pais.restaurantes;
+    const cached: RestauranteEntity[] = await this.cacheManager.get<RestauranteEntity[]>(this.cacheKey);
+    
+    if(!cached){
+        const pais: PaisEntity = await this.paisRepository.findOne({
+          where: { id: paisId },
+          relations: ['restaurantes'],
+        });
+        if (!pais)
+          throw new BusinessLogicException(
+            'The pais with the given id was not found',
+            BusinessError.NOT_FOUND,
+          );
+        await this.cacheManager.set(this.cacheKey, pais.restaurantes);
+        return pais.restaurantes;
+        }
+    return cached;   
   }
 
   async associateRestaurantesPais(
