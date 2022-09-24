@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Module, CacheModule } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { RestauranteEntity } from '../restaurante/restaurante.entity';
 import { PaisEntity } from '../pais/pais.entity';
@@ -8,7 +8,7 @@ import { JwtService } from '@nestjs/jwt';
 
 @Module({
   providers: [PaisRestauranteService, JwtService],
-  imports: [TypeOrmModule.forFeature([PaisEntity, RestauranteEntity])],
+  imports: [TypeOrmModule.forFeature([PaisEntity, RestauranteEntity]), , CacheModule.register()],
   controllers: [PaisRestauranteController],
 })
 export class PaisRestauranteModule {}
