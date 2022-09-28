@@ -64,15 +64,11 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:3000/api/v1/culturagastronomica",
-							"protocol": "http",
+							"raw": "{{baseUrl}}/culturagastronomica",
 							"host": [
-								"localhost"
+								"{{baseUrl}}"
 							],
-							"port": "3000",
 							"path": [
-								"api",
-								"v1",
 								"culturagastronomica"
 							]
 						}
@@ -143,15 +139,11 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:3000/api/v1/restaurantes",
-							"protocol": "http",
+							"raw": "{{baseUrl}}/restaurantes",
 							"host": [
-								"localhost"
+								"{{baseUrl}}"
 							],
-							"port": "3000",
 							"path": [
-								"api",
-								"v1",
 								"restaurantes"
 							]
 						}
@@ -222,15 +214,11 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:3000/api/v1/restaurantes",
-							"protocol": "http",
+							"raw": "{{baseUrl}}/restaurantes",
 							"host": [
-								"localhost"
+								"{{baseUrl}}"
 							],
-							"port": "3000",
 							"path": [
-								"api",
-								"v1",
 								"restaurantes"
 							]
 						}
@@ -301,15 +289,11 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:3000/api/v1/restaurantes",
-							"protocol": "http",
+							"raw": "{{baseUrl}}/restaurantes",
 							"host": [
-								"localhost"
+								"{{baseUrl}}"
 							],
-							"port": "3000",
 							"path": [
-								"api",
-								"v1",
 								"restaurantes"
 							]
 						}
@@ -362,15 +346,11 @@
 						"method": "POST",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:3000/api/v1/culturas/{{cultura_gastronomica_id_1}}/restaurantes/{{restaurante_id}}",
-							"protocol": "http",
+							"raw": "{{baseUrl}}/culturas/{{cultura_gastronomica_id_1}}/restaurantes/{{restaurante_id}}",
 							"host": [
-								"localhost"
+								"{{baseUrl}}"
 							],
-							"port": "3000",
 							"path": [
-								"api",
-								"v1",
 								"culturas",
 								"{{cultura_gastronomica_id_1}}",
 								"restaurantes",
@@ -426,15 +406,71 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:3000/api/v1/culturas/{{cultura_gastronomica_id_1}}/restaurantes/{{restaurante_id}}",
-							"protocol": "http",
+							"raw": "{{baseUrl}}/culturas/{{cultura_gastronomica_id_1}}/restaurantes/{{restaurante_id}}",
 							"host": [
-								"localhost"
+								"{{baseUrl}}"
 							],
-							"port": "3000",
 							"path": [
-								"api",
-								"v1",
+								"culturas",
+								"{{cultura_gastronomica_id_1}}",
+								"restaurantes",
+								"{{restaurante_id}}"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": null,
+					"cookie": [],
+					"body": "{\n  \"id\": \"14f05d0e-1275-11ed-861d-0242ac120002\",\n  \"nombre\": \"Cultura gastronómica italiana\",\n  \"descripcion\": \"Si tratamos de imaginarnos la cultura gastronímica italiana, la mayoría de la gente va a pensar en pasta o pizza, espagueti o salchichas. Pero como la mayoría de las tierras antiguas y con una larga historia, Italia tiene una cocina muy variada. Las variaciones regionales no se aprecian en ninguna parte de una forma tan brusca como la diferencia que existe entre la cocina del norte y la cocina del sur de Italia.\",\n  \"restaurantes\":[\n      {\n            \"id\": \"48a9ab90-1276-11ed-861d-0242ac120002\",\n            \"nombre\": \"Mirazur\",\n            \"ciudad\": \"Paris\",\n            \"estrellas\": 3,\n            \"fecha\": \"26/09/2019\"\n      }\n  ]\n}"
+				}
+			]
+		},
+		{
+			"name": "Obtener restaurantes de una cultura gastronomica",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"   pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/culturas/{{cultura_gastronomica_id_1}}/restaurantes/{{restaurante_id}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"culturas",
+						"{{cultura_gastronomica_id_1}}",
+						"restaurantes",
+						"{{restaurante_id}}"
+					]
+				},
+				"description": "Esta petición obtiene un restaurante de una cultura gastronómica. El API responde la representación de la cultura gastronómica del id indicado"
+			},
+			"response": [
+				{
+					"name": "Obtener un restaurante de una cultura gastronomica",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/culturas/{{cultura_gastronomica_id_1}}/restaurantes/{{restaurante_id}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
 								"culturas",
 								"{{cultura_gastronomica_id_1}}",
 								"restaurantes",
@@ -490,15 +526,11 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:3000/api/v1/culturas/{{cultura_gastronomica_id_1}}/restaurantes/{{restaurante_id}}",
-							"protocol": "http",
+							"raw": "{{baseUrl}}/culturas/{{cultura_gastronomica_id_1}}/restaurantes/{{restaurante_id}}",
 							"host": [
-								"localhost"
+								"{{baseUrl}}"
 							],
-							"port": "3000",
 							"path": [
-								"api",
-								"v1",
 								"culturas",
 								"{{cultura_gastronomica_id_1}}",
 								"restaurantes",
@@ -571,15 +603,11 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:3000/api/v1/culturas/{{cultura_gastronomica_id_1}}/restaurantes",
-							"protocol": "http",
+							"raw": "{{baseUrl}}/culturas/{{cultura_gastronomica_id_1}}/restaurantes",
 							"host": [
-								"localhost"
+								"{{baseUrl}}"
 							],
-							"port": "3000",
 							"path": [
-								"api",
-								"v1",
 								"culturas",
 								"{{cultura_gastronomica_id_1}}",
 								"restaurantes"
@@ -639,15 +667,11 @@
 						"method": "POST",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:3000/api/v1/culturas/{{cultura_gastronomica_id_1}}/restaurantes/00000000-0000-0000-0000-000000000000",
-							"protocol": "http",
+							"raw": "{{baseUrl}}/culturas/{{cultura_gastronomica_id_1}}/restaurantes/00000000-0000-0000-0000-000000000000",
 							"host": [
-								"localhost"
+								"{{baseUrl}}"
 							],
-							"port": "3000",
 							"path": [
-								"api",
-								"v1",
 								"culturas",
 								"{{cultura_gastronomica_id_1}}",
 								"restaurantes",
@@ -708,15 +732,11 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:3000/api/v1/culturas/{{cultura_gastronomica_id_1}}/restaurantes/00000000-0000-0000-0000-000000000000",
-							"protocol": "http",
+							"raw": "{{baseUrl}}/culturas/{{cultura_gastronomica_id_1}}/restaurantes/00000000-0000-0000-0000-000000000000",
 							"host": [
-								"localhost"
+								"{{baseUrl}}"
 							],
-							"port": "3000",
 							"path": [
-								"api",
-								"v1",
 								"culturas",
 								"{{cultura_gastronomica_id_1}}",
 								"restaurantes",
@@ -775,15 +795,11 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:3000/api/v1/culturas/{{cultura_gastronomica_id_1}}/restaurantes/{{restaurante_id_3}}",
-							"protocol": "http",
+							"raw": "{{baseUrl}}/culturas/{{cultura_gastronomica_id_1}}/restaurantes/{{restaurante_id_3}}",
 							"host": [
-								"localhost"
+								"{{baseUrl}}"
 							],
-							"port": "3000",
 							"path": [
-								"api",
-								"v1",
 								"culturas",
 								"{{cultura_gastronomica_id_1}}",
 								"restaurantes",
@@ -859,15 +875,11 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:3000/api/v1/culturas/{{cultura_gastronomica_id_1}}/restaurantes",
-							"protocol": "http",
+							"raw": "{{baseUrl}}/culturas/{{cultura_gastronomica_id_1}}/restaurantes",
 							"host": [
-								"localhost"
+								"{{baseUrl}}"
 							],
-							"port": "3000",
 							"path": [
-								"api",
-								"v1",
 								"culturas",
 								"{{cultura_gastronomica_id_1}}",
 								"restaurantes"

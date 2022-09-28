@@ -34,7 +34,7 @@ import { ApolloDriver } from '@nestjs/apollo';
       port: 5432,
       username: 'postgres',
       password: 'postgres',
-      database: 'cultura',
+      database: 'postgres',
       entities: [
         CulturaEntity,
         RecetaEntity,

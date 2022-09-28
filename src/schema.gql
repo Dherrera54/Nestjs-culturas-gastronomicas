@@ -35,7 +35,6 @@ type Mutation {
   createReceta(receta: RecetaDto!): RecetaEntity!
   deleteReceta(id: String!): String!
   addRecetaToCultura(cultura_id: String!, receta_id: String!): CulturaEntity!
-  asociateRecetasCultura(cultura_id: String!, recetas: [RecetaDto!]!): CulturaEntity!
   deleteRecetaFromCultura(cultura_id: String!, receta_id: String!): String!
 }
 
