@@ -36,7 +36,7 @@ export class RecetaService {
   async findOne(id: string): Promise<RecetaEntity> {
       const receta: RecetaEntity = await this.recetaRepository.findOne({where: {id}} );
       if (!receta)
-        throw new BusinessLogicException("The recipe with the given id was not found", BusinessError.NOT_FOUND);
+        throw new BusinessLogicException('La receta con id dado no se encontró', BusinessError.NOT_FOUND);
   
       return receta;
   }

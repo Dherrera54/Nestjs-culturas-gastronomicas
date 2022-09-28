@@ -5,10 +5,11 @@ import { CulturaEntity } from '../cultura/cultura.entity';
 import { RecetaEntity } from '../receta/receta.entity';
 import { CulturaRecetaController } from './cultura-receta.controller';
 import { JwtService } from '@nestjs/jwt';
+import { CulturaRecetaResolver } from './cultura-receta.resolver';
 
 
 @Module({
-  providers: [CulturaRecetaService, JwtService],
+  providers: [CulturaRecetaService, JwtService, CulturaRecetaResolver],
   imports: [TypeOrmModule.forFeature([CulturaEntity, RecetaEntity]), CacheModule.register({
         path: ':memory:',
     options: {
