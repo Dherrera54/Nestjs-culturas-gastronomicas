@@ -17,6 +17,9 @@ import { CulturaRestaurantesModule } from './cultura-restaurantes/cultura-restau
 import { PaisRestauranteModule } from './pais-restaurante/pais-restaurante.module';
 import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
+import { GraphQLModule } from '@nestjs/graphql';
+import { join } from 'path';
+import { ApolloDriver } from '@nestjs/apollo';
 
 @Module({
   imports: [
@@ -48,6 +51,10 @@ import { AuthModule } from './auth/auth.module';
     PaisRestauranteModule,
     UserModule,
     AuthModule,
+    GraphQLModule.forRoot({
+      autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
+      driver: ApolloDriver
+    }),
   ],
 
   controllers: [AppController],
