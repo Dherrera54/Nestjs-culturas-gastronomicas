@@ -29,4 +29,15 @@ export class RecetaService {
 
     await this.recetaRepository.remove(receta);
   }
+
+  async findAll(): Promise<RecetaEntity[]> {
+    return await this.recetaRepository.find({ });
+}
+  async findOne(id: string): Promise<RecetaEntity> {
+      const receta: RecetaEntity = await this.recetaRepository.findOne({where: {id}} );
+      if (!receta)
+        throw new BusinessLogicException('La receta con id dado no se encontró', BusinessError.NOT_FOUND);
+  
+      return receta;
+  }
 }
